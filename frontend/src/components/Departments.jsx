@@ -43,8 +43,13 @@ const Departments = () => {
   ];
 
   const responsive = {
+    superLarge: {
+      breakpoint: { max: 4000, min: 1600 },
+      items: 5,
+      slidesToSlide: 1,
+    },
     extraLarge: {
-      breakpoint: { max: 3000, min: 1324 },
+      breakpoint: { max: 1600, min: 1324 },
       items: 4,
       slidesToSlide: 1, // optional, default to 1.
     },
@@ -71,6 +76,10 @@ const Departments = () => {
         <h2>Departments</h2>
         <Carousel
           responsive={responsive}
+          containerClass="dept-carousel"
+          itemClass="dept-item"
+          infinite
+          partialVisible={false}
           removeArrowOnDeviceType={[
             // "superLargeDesktop",
             // "desktop",

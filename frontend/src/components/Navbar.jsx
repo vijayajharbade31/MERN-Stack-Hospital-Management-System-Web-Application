@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import axios from "axios";
@@ -45,6 +45,9 @@ const Navbar = () => {
             </Link>
             <Link to={"/about"} onClick={() => setShow(!show)}>
               About Us
+            </Link>
+            <Link to={"/record"} onClick={() => setShow(!show)}>
+              Record
             </Link>
           </div>
           {isAuthenticated ? (

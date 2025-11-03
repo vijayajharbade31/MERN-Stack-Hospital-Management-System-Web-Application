@@ -1,0 +1,221 @@
+.createInvoice {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.backButton:hover {
+  background-color: #e9ecef;
+}
+
+.appointmentSelector {
+  margin-bottom: 2rem;
+}
+
+.appointmentSelector h3 {
+  color: #0077B6;
+  margin-bottom: 1rem;
+}
+
+.appointmentButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.appointmentButton {
+  display: block;
+  width: 100%;
+  padding: 1.25rem;
+  background-color: #ffffff;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.appointmentButton:hover {
+  transform: translateY(-2px);
+  border-color: #0077B6;
+  box-shadow: 0 4px 8px rgba(0, 119, 182, 0.1);
+}
+
+.appointmentButton.selected {
+  background-color: #f0f9ff;
+  border-color: #0077B6;
+  box-shadow: 0 4px 8px rgba(0, 119, 182, 0.15);
+}
+
+.aptInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.doctorInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.doctorName {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.department {
+  color: #0077B6;
+  font-size: 0.9rem;
+}
+
+.timeInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.aptDate {
+  color: #495057;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.aptTime {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.appointmentInfo {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.appointmentInfo h3 {
+  color: #0077B6;
+  margin-bottom: 1rem;
+}
+
+.appointmentInfo p {
+  margin: 0.5rem 0;
+  color: #495057;
+}
+
+.itemsList {
+  margin-bottom: 2rem;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: 2fr 0.5fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.itemRow select,
+.itemRow input {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.removeItem {
+  padding: 0.5rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.addItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.totalsSection {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.taxField {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.taxField input {
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  width: 120px;
+}
+
+.totalAmount {
+  text-align: right;
+  font-size: 1.2rem;
+  color: #0077B6;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitButton {
+  padding: 0.75rem 2rem;
+  background-color: #0077B6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+  background-color: #005b8c;
+}
+
+.itemTotal {
+  text-align: right;
+  font-weight: 600;
+}

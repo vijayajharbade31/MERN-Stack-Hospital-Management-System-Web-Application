@@ -1,9 +1,693 @@
+/* Navbar dropdown styles */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropbtn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Appointment History styles */
+.recordSection {
+  padding: 2rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Header Section */
+.recordHeader {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.headerContent h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.headerContent p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Stats Section */
+.appointmentStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.statBox {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 5px solid;
+}
+
+.statBox:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.statBox.total {
+  border-left-color: #667eea;
+}
+
+.statBox.completed {
+  border-left-color: #28a745;
+}
+
+.statBox.upcoming {
+  border-left-color: #ffc107;
+}
+
+.statBox.invoices {
+  border-left-color: #17a2b8;
+}
+
+.statIcon {
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+
+.statBox.total .statIcon {
+  color: #667eea;
+}
+
+.statBox.completed .statIcon {
+  color: #28a745;
+}
+
+.statBox.upcoming .statIcon {
+  color: #ffc107;
+}
+
+.statBox.invoices .statIcon {
+  color: #17a2b8;
+}
+
+.statContent h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.statContent p {
+  color: #333;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Search and Filter Section */
+.searchFilterSection {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.searchBar {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+  font-size: 1.2rem;
+}
+
+.searchBar input {
+  width: 100%;
+  padding: 1rem 1rem 1rem 3rem;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.searchBar input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filterControls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #e9ecef;
+}
+
+.filterIcon {
+  color: #6c757d;
+  font-size: 1.1rem;
+}
+
+.filterGroup select {
+  border: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #495057;
+  cursor: pointer;
+}
+
+.filterGroup select:focus {
+  outline: none;
+}
+
+/* Section Headers */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionHeader h2 {
+  color: #333;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.resultCount {
+  background: #667eea;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Loading State */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  color: #6c757d;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #6c757d;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  color: #495057;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.emptyState p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* Appointment History */
+.appointmentHistory {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.appointmentList {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.appointmentCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #667eea;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.appointmentCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.appointmentCard.completed,
+.appointmentCard.accepted {
+  border-left-color: #28a745;
+}
+
+.appointmentCard.pending {
+  border-left-color: #ffc107;
+}
+
+.appointmentCard.rejected {
+  border-left-color: #dc3545;
+}
+
+.appointmentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.doctorInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.doctorAvatar {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.doctorDetails h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.department {
+  color: #6c757d;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 25px;
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.statusIcon {
+  font-size: 1rem;
+}
+
+.appointmentDetails {
+  color: #666;
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detailIcon {
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.detailLabel {
+  display: block;
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detailValue {
+  display: block;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.symptomsSection,
+.notesSection {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.symptomsSection h5,
+.notesSection h5 {
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.symptomsSection p,
+.notesSection p {
+  margin: 0;
+  color: #495057;
+  line-height: 1.6;
+}
+
+/* Invoice History */
+.invoiceHistory {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.invoiceList {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.invoiceCard {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #17a2b8;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.invoiceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.invoiceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.invoiceInfo h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.invoiceDate {
+  color: #6c757d;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.invoiceActions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.invoiceActions .status {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.invoiceActions .status.paid {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.invoiceActions .status.unpaid {
+  background: #f8d7da;
+  color: #dc3545;
+}
+
+.downloadBtn {
+  background: #17a2b8;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.downloadBtn:hover {
+  background: #138496;
+}
+
+.invoiceSummary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summaryItem {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.summaryLabel {
+  display: block;
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.summaryValue {
+  display: block;
+  font-size: 1.5rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.itemsList h5 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.itemsGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.itemCard {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 10px;
+  border-left: 3px solid #17a2b8;
+}
+
+.itemName {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.itemDetails {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.itemTotal {
+  font-weight: 600;
+  color: #17a2b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .recordSection {
+    padding: 1rem 0.5rem;
+  }
+  
+  .recordHeader {
+    padding: 2rem 1rem;
+  }
+  
+  .headerContent h1 {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .appointmentStats {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .statBox {
+    padding: 1.5rem;
+  }
+  
+  .statIcon {
+    font-size: 2rem;
+  }
+  
+  .statContent p {
+    font-size: 2rem;
+  }
+  
+  .searchFilterSection {
+    padding: 1.5rem;
+  }
+  
+  .filterControls {
+    flex-direction: column;
+  }
+  
+  .filterGroup {
+    justify-content: center;
+  }
+  
+  .sectionHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .appointmentHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .detailRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .invoiceHeader {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .invoiceActions {
+    align-self: stretch;
+    justify-content: space-between;
+  }
+}
+
+.noAppointments {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown:hover .dropbtn {
+  background-color: #e0e0e0;
+}
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
 }
 body {
@@ -75,7 +759,7 @@ h6 {
 .hero {
   display: flex;
   gap: 50px;
-  padding-top: 120px;
+  padding-top: 80px;
   padding-bottom: 120px;
   position: relative;
 }
@@ -387,13 +1071,19 @@ footer .content div:last-child div svg {
   padding-top: 30px;
   padding-bottom: 50px;
 }
+.container.departments {
+  /* Full-width carousel appearance */
+  padding-left: 200px;
+  padding-right: 0;
+    
+}
 .departments h2 {
   color: gray;
   margin-bottom: 30px;
 }
 .card {
   position: relative;
-  border-radius: 8px;
+  border-radius: 20px;
   flex: 1;
   display: flex;
   justify-content: center;
@@ -402,8 +1092,15 @@ footer .content div:last-child div svg {
   padding-left: 10px;
   padding-right: 20px;
   min-height: 360px;
-  margin: 0 10px;
+  margin: 0; /* margins moved to item padding to avoid edge gaps */
   text-decoration: none;
+  overflow: hidden;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.18);
 }
 .card img {
   position: absolute;
@@ -412,6 +1109,12 @@ footer .content div:last-child div svg {
   z-index: -1;
   top: 0;
   left: 0;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.3s ease;
+}
+.card:hover img {
+  transform: scale(1.06);
+  filter: brightness(0.9);
 }
 .card .depart-name {
   margin-bottom: 30px;
@@ -426,6 +1129,23 @@ footer .content div:last-child div svg {
   left: 0;
   height: fit-content;
   font-weight: 700;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.card:hover .depart-name {
+  background: #111;
+  color: #fff;
+}
+
+/* Remove unintended right-side spacing from react-multi-carousel */
+.dept-carousel .react-multi-carousel-list {
+  padding-right: 0 !important;
+}
+.dept-carousel .react-multi-carousel-item {
+  padding-right: 10px; /* controlled inter-card spacing */
+  padding-left: 10px;
+}
+.dept-carousel .react-multi-carousel-track {
+  margin: 0 !important;
 }
 
 /**********************************************************************************************************************/
@@ -438,7 +1158,7 @@ nav {
   align-items: center;
   border-bottom-right-radius: 7px;
   border-bottom-left-radius: 7px;
-  padding-top: 20px !important;
+  padding-top: 10px !important;
   padding-bottom: 20px !important;
   z-index: 2;
 }
@@ -581,8 +1301,104 @@ input[type="time"]:before {
   color: #444;
   margin-right: 0.5em;
 }
+
+/* Patient Profile Styles */
+.profile-section,
+.visits-section,
+.invoices-section {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section h4,
+.visits-section h4,
+.invoices-section h4 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.5rem;
+}
+
+.profile-info {
+  line-height: 1.8;
+  color: #555;
+}
+
+.visits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.visit-item {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #3498db;
+}
+
+.visit-date {
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.visit-details {
+  color: #555;
+  line-height: 1.6;
+}
+
+.invoices-table {
+  overflow-x: auto;
+}
+
+.invoices-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.invoices-table th,
+.invoices-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.invoices-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.invoice-item {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+.status {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status.paid {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
 .logo-img{
-  width: 150px;
+  width: 100px;
 }
 footer .logo-img{
   width: 100%;

@@ -1,22 +1,12 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
-import { User } from "../models/userSchema.js";
+import User from "../models/userSchema.js";
 import ErrorHandler from "../middlewares/error.js";
 import { generateToken } from "../utils/jwtToken.js";
 import cloudinary from "cloudinary";
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
-  const { firstName, lastName, email, phone, nic, dob, gender, password } =
-    req.body;
-  if (
-    !firstName ||
-    !lastName ||
-    !email ||
-    !phone ||
-    !nic ||
-    !dob ||
-    !gender ||
-    !password
-  ) {
+  const { firstName, lastName, email, phone, dob, gender, password } = req.body;
+  if (!firstName || !lastName || !email || !phone || !dob || !gender || !password) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
 
@@ -30,7 +20,6 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
     dob,
     gender,
     password,
@@ -40,14 +29,9 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const login = catchAsyncErrors(async (req, res, next) => {
-  const { email, password, confirmPassword, role } = req.body;
-  if (!email || !password || !confirmPassword || !role) {
+  const { email, password, role } = req.body;
+  if (!email || !password || !role) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
-  }
-  if (password !== confirmPassword) {
-    return next(
-      new ErrorHandler("Password & Confirm Password Do Not Match!", 400)
-    );
   }
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
@@ -65,18 +49,8 @@ export const login = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
-  const { firstName, lastName, email, phone, nic, dob, gender, password } =
-    req.body;
-  if (
-    !firstName ||
-    !lastName ||
-    !email ||
-    !phone ||
-    !nic ||
-    !dob ||
-    !gender ||
-    !password
-  ) {
+  const { firstName, lastName, email, phone, dob, gender, password } = req.body;
+  if (!firstName || !lastName || !email || !phone || !dob || !gender || !password) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
 
@@ -90,7 +64,6 @@ export const addNewAdmin = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
     dob,
     gender,
     password,
@@ -112,29 +85,8 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
   if (!allowedFormats.includes(docAvatar.mimetype)) {
     return next(new ErrorHandler("File Format Not Supported!", 400));
   }
-  const {
-    firstName,
-    lastName,
-    email,
-    phone,
-    nic,
-    dob,
-    gender,
-    password,
-    doctorDepartment,
-  } = req.body;
-  if (
-    !firstName ||
-    !lastName ||
-    !email ||
-    !phone ||
-    !nic ||
-    !dob ||
-    !gender ||
-    !password ||
-    !doctorDepartment ||
-    !docAvatar
-  ) {
+  const { firstName, lastName, email, phone, dob, gender, password, doctorDepartment } = req.body;
+  if (!firstName || !lastName || !email || !phone || !dob || !gender || !password || !doctorDepartment || !docAvatar) {
     return next(new ErrorHandler("Please Fill Full Form!", 400));
   }
   const isRegistered = await User.findOne({ email });
@@ -160,7 +112,6 @@ export const addNewDoctor = catchAsyncErrors(async (req, res, next) => {
     lastName,
     email,
     phone,
-    nic,
     dob,
     gender,
     password,
@@ -183,6 +134,200 @@ export const getAllDoctors = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     success: true,
     doctors,
+  });
+});
+
+// Get single doctor by id (admin dashboard)
+export const getDoctorById = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const doctor = await User.findById(id);
+  if (!doctor || doctor.role !== "Doctor") {
+    return next(new ErrorHandler("Doctor Not Found!", 404));
+  }
+  res.status(200).json({ success: true, doctor });
+});
+
+// Update doctor details (admin dashboard)
+export const updateDoctor = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  const doctor = await User.findById(id);
+  if (!doctor || doctor.role !== "Doctor") {
+    return next(new ErrorHandler("Doctor Not Found!", 404));
+  }
+
+  const updatableFields = [
+    "firstName",
+    "lastName",
+    "email",
+    "phone",
+    "dob",
+    "gender",
+    "doctorDepartment",
+  ];
+
+  updatableFields.forEach((field) => {
+    if (typeof req.body[field] !== "undefined") {
+      doctor[field] = req.body[field];
+    }
+  });
+
+  // Optional avatar update
+  if (req.files && req.files.docAvatar) {
+    const { docAvatar } = req.files;
+    const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
+    if (!allowedFormats.includes(docAvatar.mimetype)) {
+      return next(new ErrorHandler("File Format Not Supported!", 400));
+    }
+    if (doctor.docAvatar && doctor.docAvatar.public_id) {
+      await cloudinary.v2.uploader.destroy(doctor.docAvatar.public_id);
+    }
+    const uploadRes = await cloudinary.uploader.upload(docAvatar.tempFilePath);
+    doctor.docAvatar = {
+      public_id: uploadRes.public_id,
+      url: uploadRes.secure_url,
+    };
+  }
+
+  await doctor.save();
+  res.status(200).json({ success: true, message: "Doctor Updated Successfully!", doctor });
+});
+
+export const getAllPatients = catchAsyncErrors(async (req, res, next) => {
+  const patients = await User.find({ role: "Patient" }).sort({ _id: -1 });
+  res.status(200).json({
+    success: true,
+    patients,
+  });
+});
+
+export const getPatientsWithAppointments = catchAsyncErrors(async (req, res, next) => {
+  // Get all patients who have appointments (registered users)
+  const Appointment = (await import("../models/appointmentSchema.js")).default;
+  
+  const patientsWithAppointments = await Appointment.aggregate([
+    {
+      $match: {
+        patientId: { $exists: true, $ne: null }
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "patientId",
+        foreignField: "_id",
+        as: "patient"
+      }
+    },
+    {
+      $unwind: "$patient"
+    },
+    {
+      $match: {
+        "patient.role": "Patient"
+      }
+    },
+    {
+      $group: {
+        _id: "$patientId",
+        patient: { $first: "$patient" },
+        appointmentCount: { $sum: 1 },
+        latestAppointment: { $max: "$appointment_date" }
+      }
+    },
+    {
+      $project: {
+        _id: "$patient._id",
+        firstName: "$patient.firstName",
+        lastName: "$patient.lastName",
+        email: "$patient.email",
+        phone: "$patient.phone",
+        dob: "$patient.dob",
+        gender: "$patient.gender",
+        appointmentCount: 1,
+        latestAppointment: 1
+      }
+    },
+    {
+      $sort: { latestAppointment: -1 }
+    }
+  ]);
+
+  res.status(200).json({
+    success: true,
+    patients: patientsWithAppointments,
+  });
+});
+
+export const addNewPatient = catchAsyncErrors(async (req, res, next) => {
+  const { firstName, lastName, email, phone, dob, gender, password } = req.body;
+  if (!firstName || !lastName || !email || !phone || !dob || !gender || !password) {
+    return next(new ErrorHandler("Please Fill Full Form!", 400));
+  }
+
+  const isRegistered = await User.findOne({ email });
+  if (isRegistered) {
+    return next(new ErrorHandler("Patient With This Email Already Exists!", 400));
+  }
+
+  const patient = await User.create({
+    firstName,
+    lastName,
+    email,
+    phone,
+    dob,
+    gender,
+    password,
+    role: "Patient",
+  });
+  res.status(200).json({
+    success: true,
+    message: "New Patient Registered",
+    patient,
+  });
+});
+
+export const deleteDoctor = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  
+  const doctor = await User.findById(id);
+  if (!doctor) {
+    return next(new ErrorHandler("Doctor Not Found!", 404));
+  }
+  
+  if (doctor.role !== "Doctor") {
+    return next(new ErrorHandler("User is not a doctor!", 400));
+  }
+  
+  // Delete doctor's avatar from cloudinary if exists
+  if (doctor.docAvatar && doctor.docAvatar.public_id) {
+    await cloudinary.v2.uploader.destroy(doctor.docAvatar.public_id);
+  }
+  
+  await doctor.deleteOne();
+  
+  res.status(200).json({
+    success: true,
+    message: "Doctor Deleted Successfully!",
+  });
+});
+
+export const deletePatient = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  
+  const patient = await User.findById(id);
+  if (!patient) {
+    return next(new ErrorHandler("Patient Not Found!", 404));
+  }
+  
+  if (patient.role !== "Patient") {
+    return next(new ErrorHandler("User is not a patient!", 400));
+  }
+  
+  await patient.deleteOne();
+  
+  res.status(200).json({
+    success: true,
+    message: "Patient Deleted Successfully!",
   });
 });
 
@@ -220,4 +365,28 @@ export const logoutPatient = catchAsyncErrors(async (req, res, next) => {
       success: true,
       message: "Patient Logged Out Successfully.",
     });
+});
+
+// Update profile function for patients
+export const updateProfile = catchAsyncErrors(async (req, res, next) => {
+  const { address } = req.body;
+  
+  if (!address) {
+    return next(new ErrorHandler("Address is required!", 400));
+  }
+
+  const user = await User.findById(req.user._id);
+  
+  if (!user) {
+    return next(new ErrorHandler("User not found!", 404));
+  }
+
+  user.address = address;
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Profile Updated Successfully!",
+    user
+  });
 });

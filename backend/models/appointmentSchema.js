@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { Mongoose } from "mongoose";
 import validator from "validator";
 
 const appointmentSchema = new mongoose.Schema({
@@ -21,14 +20,8 @@ const appointmentSchema = new mongoose.Schema({
   phone: {
     type: String,
     required: [true, "Phone Is Required!"],
-    minLength: [11, "Phone Number Must Contain Exact 11 Digits!"],
-    maxLength: [11, "Phone Number Must Contain Exact 11 Digits!"],
-  },
-  nic: {
-    type: String,
-    required: [true, "NIC Is Required!"],
-    minLength: [13, "NIC Must Contain Only 13 Digits!"],
-    maxLength: [13, "NIC Must Contain Only 13 Digits!"],
+    minLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
+    maxLength: [10, "Phone Number Must Contain Exact 10 Digits!"],
   },
   dob: {
     type: Date,
@@ -42,6 +35,11 @@ const appointmentSchema = new mongoose.Schema({
   appointment_date: {
     type: String,
     required: [true, "Appointment Date Is Required!"],
+  },
+  status: {
+    type: String,
+    enum: ['pending', 'completed', 'cancelled'],
+    default: 'pending'
   },
   department: {
     type: String,
@@ -63,22 +61,32 @@ const appointmentSchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: [true, "Address Is Required!"],
+    required: false
   },
   doctorId: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: [true, "Doctor Id Is Invalid!"],
   },
   patientId: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: [true, "Patient Id Is Required!"],
   },
   status: {
     type: String,
-    enum: ["Pending", "Accepted", "Rejected"],
+    enum: ["Pending", "Accepted", "Rejected", "Completed", "Cancelled"],
     default: "Pending",
   },
 });
 
-export const Appointment = mongoose.model("Appointment", appointmentSchema);
+// Normalize phone before validation
+appointmentSchema.pre('validate', function(next) {
+  if (this.phone) {
+    this.phone = this.phone.toString().replace(/\D/g, '');
+  }
+  next();
+});
+
+const Appointment = mongoose.model("Appointment", appointmentSchema);
+export default Appointment;

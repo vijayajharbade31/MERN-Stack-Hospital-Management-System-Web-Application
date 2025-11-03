@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { TiHome } from "react-icons/ti";
 import { RiLogoutBoxFill } from "react-icons/ri";
 import { AiFillMessage } from "react-icons/ai";
@@ -6,6 +6,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FaUserDoctor } from "react-icons/fa6";
 import { MdAddModerator } from "react-icons/md";
 import { IoPersonAddSharp } from "react-icons/io5";
+import { RiBillLine } from "react-icons/ri";
+import { FaPills } from "react-icons/fa";
+import { FaChartLine } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { Context } from "../main";
@@ -53,6 +56,21 @@ const Sidebar = () => {
     setShow(!show);
   };
 
+  const gotoInvoicePage = () => {
+    navigateTo("/invoices");
+    setShow(!show);
+  };
+
+  const gotoMedicinePage = () => {
+    navigateTo("/medicines");
+    setShow(!show);
+  };
+
+  const gotoReportsPage = () => {
+    navigateTo("/reports");
+    setShow(!show);
+  };
+
   return (
     <>
       <nav
@@ -64,6 +82,9 @@ const Sidebar = () => {
           <FaUserDoctor onClick={gotoDoctorsPage} />
           <MdAddModerator onClick={gotoAddNewAdmin} />
           <IoPersonAddSharp onClick={gotoAddNewDoctor} />
+          <RiBillLine onClick={gotoInvoicePage} />
+          <FaPills onClick={gotoMedicinePage} />
+          <FaChartLine onClick={gotoReportsPage} />
           <AiFillMessage onClick={gotoMessagesPage} />
           <RiLogoutBoxFill onClick={handleLogout} />
         </div>

@@ -8,14 +8,27 @@ import { errorMiddleware } from "./middlewares/error.js";
 import messageRouter from "./router/messageRouter.js";
 import userRouter from "./router/userRouter.js";
 import appointmentRouter from "./router/appointmentRouter.js";
+import patientRecordRouter from "./router/patientRecordRouter.js";
+import medicineRouter from "./router/medicineRouter.js";
+import invoiceRouter from "./router/invoiceRouter.js";
+import reportRouter from "./router/reportRouter.js";
+import aiRouter from "./router/aiRouter.js";
 
 const app = express();
+
 config({ path: "./config.env" });
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL_ONE, process.env.FRONTEND_URL_TWO],
-    method: ["GET", "POST", "DELETE", "PUT"],
+    origin: [
+      process.env.FRONTEND_URL_ONE,
+      process.env.FRONTEND_URL_TWO,
+      process.env.DASHBOARD_URL,
+      "http://localhost:5173",
+      "http://localhost:5174",
+      "http://localhost:5175"
+    ],
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     credentials: true,
   })
 );
@@ -33,8 +46,11 @@ app.use(
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/appointment", appointmentRouter);
-
-dbConnection();
+app.use("/api/v1/patient-record", patientRecordRouter);
+app.use("/api/v1/medicine", medicineRouter);
+app.use("/api/v1/invoice", invoiceRouter);
+app.use('/api/v1/reports', reportRouter);
+app.use('/api/v1/ai', aiRouter);
 
 app.use(errorMiddleware);
 export default app;

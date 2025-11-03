@@ -1,22 +1,31 @@
-import React, { useContext } from "react";
-import Hero from "../components/Hero";
-import Biography from "../components/Biography";
-import MessageForm from "../components/MessageForm";
+import React from "react";
+import ModernHero from "../components/ModernHero";
+import StatsSection from "../components/StatsSection";
+import ServicesSection from "../components/ServicesSection";
 import Departments from "../components/Departments";
+import DoctorsSection from "../components/DoctorsSection";
+import TestimonialsSection from "../components/TestimonialsSection";
 
+/**
+ * Modern Home Page
+ * Features:
+ * - Hero section with CTA
+ * - Stats showcasing our achievements
+ * - Services showcase
+ * - Doctors section
+ * - Testimonials
+ * - All components use modern design with healthcare theme
+ */
 const Home = () => {
   return (
-    <>
-      <Hero
-        title={
-          "Welcome to ZeeCare Medical Institute | Your Trusted Healthcare Provider"
-        }
-        imageUrl={"/hero.png"}
-      />
-      <Biography imageUrl={"/about.png"} />
+    <div className="min-h-screen">
+      <ModernHero />
+      <StatsSection />
+      <ServicesSection />
       <Departments />
-      <MessageForm />
-    </>
+      <DoctorsSection />
+      <TestimonialsSection />
+    </div>
   );
 };
 

@@ -15,9 +15,51 @@ export const sendMessage = catchAsyncErrors(async (req, res, next) => {
 });
 
 export const getAllMessages = catchAsyncErrors(async (req, res, next) => {
-  const messages = await Message.find();
+  const messages = await Message.find().sort({ createdAt: -1 });
   res.status(200).json({
     success: true,
     messages,
+  });
+});
+
+export const markAsRead = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  
+  const message = await Message.findById(id);
+  if (!message) {
+    return next(new ErrorHandler("Message not found!", 404));
+  }
+  
+  message.isRead = true;
+  await message.save();
+  
+  res.status(200).json({
+    success: true,
+    message: "Message marked as read!",
+  });
+});
+
+export const deleteMessage = catchAsyncErrors(async (req, res, next) => {
+  const { id } = req.params;
+  
+  const message = await Message.findById(id);
+  if (!message) {
+    return next(new ErrorHandler("Message not found!", 404));
+  }
+  
+  await message.deleteOne();
+  
+  res.status(200).json({
+    success: true,
+    message: "Message deleted successfully!",
+  });
+});
+
+export const markAllAsRead = catchAsyncErrors(async (req, res, next) => {
+  await Message.updateMany({}, { isRead: true });
+  
+  res.status(200).json({
+    success: true,
+    message: "All messages marked as read!",
   });
 });
