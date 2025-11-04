@@ -64,12 +64,14 @@ export const getAllAppointments = catchAsyncErrors(async (req, res, next) => {
     .populate('patientId', 'firstName lastName email');
 
   // Transform the data to include all necessary fields
+  // Priority: Use appointment form data (patient info from form) over logged-in user data
   const transformedAppointments = appointments.map(apt => ({
     _id: apt._id,
     patientId: apt.patientId?._id,
     doctorId: apt.doctorId?._id,
-    email: apt.email || apt.patientId?.email,
-    phone: apt.phone,
+    // Prioritize appointment email (from form) over patientId email (logged-in user)
+    email: (apt.email && apt.email.trim()) ? apt.email : apt.patientId?.email,
+    phone: apt.phone || apt.patientId?.phone,
     appointment_date: apt.appointment_date,
     department: apt.department || apt.doctorId?.department,
     status: apt.status || 'Pending',
@@ -77,9 +79,10 @@ export const getAllAppointments = catchAsyncErrors(async (req, res, next) => {
     doctorName: apt.doctorId ? 
       `${apt.doctorId.firstName} ${apt.doctorId.lastName}` : 
       (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Unknown'),
-    patientName: apt.patientId ? 
-      `${apt.patientId.firstName} ${apt.patientId.lastName}` :
-      (apt.firstName && apt.lastName ? `${apt.firstName} ${apt.lastName}` : 'Unknown Patient')
+    // Prioritize appointment patient name (from form) over patientId name (logged-in user)
+    patientName: (apt.firstName && apt.lastName) ? 
+      `${apt.firstName} ${apt.lastName}` :
+      (apt.patientId ? `${apt.patientId.firstName} ${apt.patientId.lastName}` : 'Unknown Patient')
   }));
 
   res.status(200).json({
