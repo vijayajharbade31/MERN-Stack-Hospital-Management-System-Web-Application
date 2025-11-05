@@ -52,5 +52,9 @@ app.use("/api/v1/invoice", invoiceRouter);
 app.use('/api/v1/reports', reportRouter);
 app.use('/api/v1/ai', aiRouter);
 
+app.get("/", (req, res) => {
+  res.send(" Hospital Management System backend is running successfully on Render!");
+});
+
 app.use(errorMiddleware);
 export default app;
