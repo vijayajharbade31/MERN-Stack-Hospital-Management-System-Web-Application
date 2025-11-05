@@ -21,17 +21,17 @@ config({ path: "./config.env" });
 app.use(
   cors({
     origin: [
-      process.env.FRONTEND_URL_ONE,
-      process.env.FRONTEND_URL_TWO,
-      process.env.DASHBOARD_URL,
+      "https://mern-stack-hospital-management-system-o8eg.onrender.com", // Dashboard URL
+      "https://mern-stack-hospital-management-system-frontend.onrender.com", // Frontend URL (if you have one)
       "http://localhost:5173",
       "http://localhost:5174",
       "http://localhost:5175"
     ],
-    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
   })
 );
+
 
 app.use(cookieParser());
 app.use(express.json());
