@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import app from "./app.js";
 import cloudinary from "cloudinary";
 import { dbConnection } from "./database/dbConnection.js";
